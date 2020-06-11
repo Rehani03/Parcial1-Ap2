@@ -77,7 +77,7 @@ namespace Parcial1_Ap2.BLL
                 var auxProducto = contexto.Productos.Find(id);
                 if (auxProducto != null)
                 {
-                    contexto.Productos.Remove(auxProducto);//remueve la entidad
+                    contexto.Productos.Remove(auxProducto);
                     paso = contexto.SaveChanges() > 0;
 
                 }
