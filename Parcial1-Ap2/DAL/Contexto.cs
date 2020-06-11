@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Parcial1_Ap2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Parcial1_Ap2.DAL
         {
             optionsBuilder.UseSqlite(@"Data Source=DATA\PrimerParcial.db");
         }
+
+        public DbSet<Producto> Productos { get; set; }
     }
 }
