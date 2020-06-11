@@ -65,6 +65,21 @@
 
         </table>
 
+        <div class="card-footer">
+            <div class="form-group text-center" display:inline-block>
+                <div class="form-row">
+                    <div class="row">
+                        <div class="input-group">
+                            <label>TOTAL VALOR INVENTARIO:</label>
+                            <div class="input-group-append">
+                                <input type="text" class="form-control" @bind="total" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
@@ -76,7 +91,9 @@
 
     public List<Producto> lista = new List<Producto>();
 
-   
+    public decimal total { get; set; }
+
+
 
     private void Consultar()
     {
@@ -84,31 +101,35 @@
         {
             switch (filtro)
             {
-                    case 0: //Todos
-                        this.lista = ProductoBLL.GetList(p => true);
-                        break;
-                    case 1: //Id
-                        int ID = GetId();
-                        this.lista = ProductoBLL.GetList(p => p.productoId == ID);
-                        break;
-                    case 2: //descripcion
-                        this.lista = ProductoBLL.GetList(p => p.descripcion == criterio);
-                        break;
-                    case 3: //existencia
-                        int existencia = GetExistencia();
-                        this.lista = ProductoBLL.GetList(p => p.existencia == existencia);
-                        break;
-                    case 4: //costo
-                        decimal costo = GetCosto();
-                        this.lista = ProductoBLL.GetList(p => p.costo == costo);
-                        break;
-                    case 5://valor de inventario
-                        decimal valor = GetValorInventario();
-                        this.lista = ProductoBLL.GetList(p => p.valorInventario == valor);
-                        break;
+                case 0: //Todos
+                    this.lista = ProductoBLL.GetList(p => true);
+                    SumarValor();
+                    break;
+                case 1: //Id
+                    int ID = GetId();
+                    this.lista = ProductoBLL.GetList(p => p.productoId == ID);
+                    SumarValor();
+                    break;
+                case 2: //descripcion
+                    this.lista = ProductoBLL.GetList(p => p.descripcion == criterio);
+                    SumarValor();
+                    break;
+                case 3: //existencia
+                    int existencia = GetExistencia();
+                    this.lista = ProductoBLL.GetList(p => p.existencia == existencia);
+                    SumarValor();
+                    break;
+                case 4: //costo
+                    decimal costo = GetCosto();
+                    this.lista = ProductoBLL.GetList(p => p.costo == costo);
+                    SumarValor();
+                    break;
+                case 5://valor de inventario
+                    decimal valor = GetValorInventario();
+                    this.lista = ProductoBLL.GetList(p => p.valorInventario == valor);
+                    SumarValor();
+                    break;
             }
-            
-            
         }
         catch (Exception)
         {
@@ -187,6 +208,21 @@
         }
 
         return valor;
+    }
+
+    private void SumarValor()
+    {
+        decimal auxValor = 0;
+        if (lista != null)
+        {
+            foreach (var item in lista)
+            {
+                auxValor += item.valorInventario;
+            }
+
+            total = auxValor;
+        }
+
     }
 
 }
