@@ -12,7 +12,7 @@ namespace Parcial1_Ap2.BLL
     {
         public static bool Guardar(Producto producto)
         {
-            if (!Existe(producto.productoId))//si no existe insertamos
+            if (!Existe(producto.productoId))
 
                 return Insertar(producto);
             else
