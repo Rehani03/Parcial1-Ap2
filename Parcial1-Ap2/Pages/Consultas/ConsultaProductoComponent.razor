@@ -1,0 +1,192 @@
+﻿@page "/consultaProducto"
+@using Parcial1_Ap2.Models
+@using Parcial1_Ap2.BLL
+
+@inject IToastService toast
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Consulta de Producto</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="input-group">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Criterio" @bind="criterio" />
+                        </div>
+
+                        <div class="col">
+                            <select class="form-control" @bind="filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Id</option>
+                                <option value="2">Descripción</option>
+                                <option value="3">Existencia</option>
+                                <option value="4">Costo</option>
+                                <option value="5">Valor de Inventario</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Descripcion</th>
+                    <th>Existencia</th>
+                    <th>Costo</th>
+                    <th>Valor Inventario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@item.productoId</td>
+                        <td>@item.descripcion</td>
+                        <td>@item.existencia</td>
+                        <td>@item.costo</td>
+                        <td>@item.valorInventario</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+@code {
+
+    public int filtro { get; set; }
+
+    public string criterio { get; set; }
+
+    public List<Producto> lista = new List<Producto>();
+
+   
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (filtro)
+            {
+                    case 0: //Todos
+                        this.lista = ProductoBLL.GetList(p => true);
+                        break;
+                    case 1: //Id
+                        int ID = GetId();
+                        this.lista = ProductoBLL.GetList(p => p.productoId == ID);
+                        break;
+                    case 2: //descripcion
+                        this.lista = ProductoBLL.GetList(p => p.descripcion == criterio);
+                        break;
+                    case 3: //existencia
+                        int existencia = GetExistencia();
+                        this.lista = ProductoBLL.GetList(p => p.existencia == existencia);
+                        break;
+                    case 4: //costo
+                        decimal costo = GetCosto();
+                        this.lista = ProductoBLL.GetList(p => p.costo == costo);
+                        break;
+                    case 5://valor de inventario
+                        decimal valor = GetValorInventario();
+                        this.lista = ProductoBLL.GetList(p => p.valorInventario == valor);
+                        break;
+            }
+            
+            
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+    private int GetId()
+    {
+        int resultado = 0;
+
+        try
+        {
+            resultado = Convert.ToInt32(criterio);
+            return resultado;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("El Id debe ser numerico..");
+        }
+
+        return resultado;
+    }
+
+    private int GetExistencia()
+    {
+        int existencia = 0;
+
+        try
+        {
+            existencia = Convert.ToInt32(criterio);
+            return existencia;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("La existencia debe ser numerico..");
+        }
+
+        return existencia;
+    }
+
+    private decimal GetCosto()
+    {
+        decimal costo = 0;
+
+        try
+        {
+            costo = Convert.ToDecimal(criterio);
+            return costo;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("El costo debe ser numerico..");
+        }
+
+        return costo;
+    }
+
+    private decimal GetValorInventario()
+    {
+        decimal valor = 0;
+
+        try
+        {
+            valor = Convert.ToDecimal(criterio);
+            return valor;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("El valor debe ser numerico..");
+        }
+
+        return valor;
+    }
+
+}

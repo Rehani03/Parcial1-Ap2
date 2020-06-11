@@ -138,7 +138,7 @@ namespace Parcial1_Ap2.BLL
 
         }
 
-        public List<Producto> GetList(Expression<Func<Producto, bool>> expression)
+        public static List<Producto> GetList(Expression<Func<Producto, bool>> expression)
         {
             List<Producto> lista = new List<Producto>();
             Contexto contexto = new Contexto();
