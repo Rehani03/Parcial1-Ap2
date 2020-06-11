@@ -4,6 +4,8 @@ using Parcial1_Ap2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace Parcial1_Ap2.BLL
@@ -134,6 +136,27 @@ namespace Parcial1_Ap2.BLL
 
             return encontrado;
 
+        }
+
+        public List<Producto> GetList(Expression<Func<Producto, bool>> expression)
+        {
+            List<Producto> lista = new List<Producto>();
+            Contexto contexto = new Contexto();
+
+            try
+            {
+                lista = contexto.Productos.Where(expression).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+            return lista;
         }
     }
 }
