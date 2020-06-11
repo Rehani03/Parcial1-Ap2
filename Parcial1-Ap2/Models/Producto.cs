@@ -21,9 +21,11 @@ namespace Parcial1_Ap2.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [Range(1,1000000, ErrorMessage ="El rango es de 1 a 100000")]
         public int existencia { get; set; }
+
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [Range(1, 1000000, ErrorMessage = "El rango es de 1 a 100000")]
         public decimal costo { get; set; }
+
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public decimal valorInventario { get; set; }
 
